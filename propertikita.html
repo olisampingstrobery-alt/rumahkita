@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RumahKITA - Properti Untuk Masa Depan</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            DEFAULT: '#172B4D',
+                            800: '#243A5E',
+                            900: '#172B4D',
+                            950: '#0F1F38',
+                        },
+                        royal: {
+                            50: '#FBF6EB',
+                            100: '#F3E8D3',
+                            500: '#C89B3C',
+                            600: '#C89B3C',
+                            700: '#A67C2A',
+                        },
+                        gold: {
+                            DEFAULT: '#C89B3C',
+                            light: '#E8C97A',
+                            dark: '#A67C2A',
+                        },
+                        beige: '#E8DED0',
+                        cream: '#FAF8F3',
+                        charcoal: '#242424',
+                        mist: '#FAF8F3',
+                        primary: {
+                            50: '#FBF6EB',
+                            100: '#F3E8D3',
+                            500: '#C89B3C',
+                            600: '#C89B3C',
+                            700: '#A67C2A',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FAF8F3;
+        }
+        .text-navy { color: #172B4D; }
+        .bg-navy { background-color: #172B4D; }
+        .hero-pattern {
+            background: radial-gradient(circle at 20% 20%, rgba(200,155,60,.16) 0, transparent 42%),
+                        radial-gradient(circle at 90% 10%, rgba(23,43,77,.08) 0, transparent 38%),
+                        linear-gradient(180deg, #FFFFFF 0%, #FAF8F3 55%, #F3EAD9 100%);
+        }
+        .navy-gradient { background: linear-gradient(135deg, #0F1F38 0%, #172B4D 55%, #243A5E 100%); }
+        .gold-line { background: linear-gradient(90deg, #A67C2A, #C89B3C 40%, #E8C97A 70%, #C89B3C); }
+        .beige-section { background: linear-gradient(180deg, #FAF8F3 0%, #F1E7D5 100%); }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #EFE6D3; }
+        ::-webkit-scrollbar-thumb { background: #C89B3C; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #A67C2A; }
+
+        .nav-link {
+            display: inline-flex; align-items: center;
+            padding: 8px 16px; border-radius: 999px;
+            font-size: 14px; font-weight: 500; line-height: 1;
+            color: rgba(255,255,255,.72); background: transparent;
+            transition: all .2s ease; white-space: nowrap;
+        }
+        .nav-link:hover { color: #fff; background: rgba(255,255,255,.12); }
+        .nav-link.active { color: #172B4D; background: #C89B3C; font-weight: 700; }
+        .nav-link.active:hover { color: #172B4D; background: #D9AD4F; }
+        .card-hover { transition: transform .3s ease, box-shadow .3s ease; }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 35px -12px rgba(23,43,77,.25), 0 4px 12px rgba(200,155,60,.18);
+            border-color: #C89B3C;
+        }
+        
+        /* Modal Transitions */
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: opacity 200ms, transform 200ms; }
+        .modal-exit { opacity: 1; transform: scale(1); }
+        .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 200ms, transform 200ms; }
+    </style>
+</head>
+<body class="text-[#242424] antialiased flex flex-col min-h-screen bg-[#FAF8F3]">
+
+    <!-- Navbar -->
+    <nav class="navy-gradient shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a onclick="navigate('home')" class="flex-shrink-0 flex items-center gap-2.5 cursor-pointer">
+                        <img src="logo.png" onerror="this.onerror=null;this.src='.rumahkita.jpg'" alt="RumahKITA" class="h-10 w-auto max-w-[190px] rounded-lg bg-black px-2 py-1 object-contain shadow-sm">
+                        <span class="hidden md:block font-extrabold text-lg tracking-tight text-white leading-none">Rumah<span class="text-[#E8C97A]">KITA</span>
+                            <span class="block text-[10px] font-medium tracking-[0.2em] text-white/60">PROPERTI MASA DEPAN</span>
+                        </span>
+                    </a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-1 sm:items-center">
+                    <button onclick="navigate('home')" class="nav-btn nav-link" data-target="home">Home</button>
+                    <button onclick="navigate('properti')" class="nav-btn nav-link" data-target="properti">Properti</button>
+                    <button onclick="navigate('about')" class="nav-btn nav-link" data-target="about">Tentang Kami</button>
+                    <button onclick="navigate('kontak')" class="nav-btn nav-link" data-target="kontak">Kontak</button>
+                    <button onclick="openFormModal()" class="ml-3 bg-[#C89B3C] text-[#172B4D] px-4 py-2 rounded-full text-sm font-bold hover:bg-[#E8C97A] transition-all shadow-[0_4px_14px_rgba(200,155,60,.4)] flex items-center gap-2">
+                        <i class="fa-solid fa-plus text-xs"></i> Tambah Properti
+                    </button>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="flex items-center sm:hidden">
+                    <button type="button" onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-white/80 hover:text-white hover:bg-white/10">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="sm:hidden hidden bg-[#172B4D] border-t border-white/10 absolute w-full" id="mobile-menu">
+            <div class="pt-2 pb-3 space-y-1 shadow-xl">
+                <button onclick="navigate('home'); toggleMobileMenu()" class="w-full text-left text-white/80 hover:bg-white/10 block pl-3 pr-4 py-2 text-base font-medium">Home</button>
+                <button onclick="navigate('properti'); toggleMobileMenu()" class="w-full text-left text-white/80 hover:bg-white/10 block pl-3 pr-4 py-2 text-base font-medium">Properti</button>
+                <button onclick="navigate('about'); toggleMobileMenu()" class="w-full text-left text-white/80 hover:bg-white/10 block pl-3 pr-4 py-2 text-base font-medium">Tentang Kami</button>
+                <div class="pl-3 pr-4 py-4">
+                    <button onclick="openFormModal(); toggleMobileMenu()" class="w-full text-center bg-[#C89B3C] text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#A67C2A] transition-colors">
+                        <i class="fa-solid fa-plus mr-2"></i> Tambah Properti
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="h-1 gold-line"></div>
+
+    <main class="flex-grow w-full relative">
+        
+        <!-- ================= HOME VIEW ================= -->
+        <section id="view-home" class="view-section block">
+            <!-- Hero -->
+            <div class="relative hero-pattern overflow-hidden border-b border-[#E8DED0]">
+                <div class="max-w-7xl mx-auto">
+                    <div class="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-10 px-4 sm:px-6 lg:px-8">
+                        <main class="mt-10 mx-auto max-w-7xl sm:mt-12 md:mt-16 lg:mt-20 xl:mt-24">
+                            <div class="sm:text-center lg:text-left">
+                                <div class="inline-flex items-center gap-2 bg-white border border-[#E8DED0] text-[#172B4D] px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm mb-5">
+                                    <span class="h-2 w-2 rounded-full bg-[#C89B3C] animate-pulse"></span>
+                                    Platform Properti Terpercaya #1
+                                </div>
+                                <h1 class="text-4xl tracking-tight font-extrabold text-[#172B4D] sm:text-5xl md:text-6xl leading-[1.05]">
+                                    <span class="block xl:inline">Rumah Terbaik</span>
+                                    <span class="block xl:inline">Untuk <span class="text-[#C89B3C]">Masa Depan</span></span>
+                                </h1>
+                                <p class="mt-4 text-base text-[#172B4D]/70 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                                    Cari rumah berdasarkan lokasi, harga, atau tipe properti. Temukan pilihan terbaik untuk masa depan keluarga Anda.
+                                </p>
+                                <!-- Quick Search -->
+                                <div class="mt-8 sm:flex sm:justify-center lg:justify-start">
+                                    <div class="relative w-full sm:w-auto flex flex-col sm:flex-row gap-2 bg-white p-2 rounded-2xl shadow-[0_8px_30px_rgba(23,43,77,.08)] border border-[#E8DED0]">
+                                        <div class="relative flex-grow focus-within:z-10 min-w-[280px]">
+                                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <i class="fa-solid fa-magnifying-glass text-[#C89B3C]"></i>
+                                            </div>
+                                            <input type="text" id="hero-search" class="focus:ring-[#C89B3C] focus:border-[#C89B3C] block w-full rounded-xl pl-10 sm:text-sm border-[#E8DED0] border py-3 px-4 text-[#172B4D]" placeholder="Cari nama properti atau lokasi...">
+                                        </div>
+                                        <button onclick="triggerHeroSearch()" class="relative inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-xl text-white bg-[#C89B3C] hover:bg-[#A67C2A] shadow-[0_4px_14px_rgba(200,155,60,.4)] w-full sm:w-auto">
+                                            <i class="fa-solid fa-search"></i> Cari Properti
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="mt-6 flex items-center gap-6 sm:justify-center lg:justify-start text-sm">
+                                    <div class="flex items-center gap-2 text-[#172B4D]"><i class="fa-solid fa-circle-check text-[#C89B3C]"></i><span class="font-semibold">1000+ Listing</span></div>
+                                    <div class="flex items-center gap-2 text-[#172B4D]"><i class="fa-solid fa-shield-halved text-[#C89B3C]"></i><span class="font-semibold">Terverifikasi</span></div>
+                                    <div class="flex items-center gap-2 text-[#172B4D]"><i class="fa-solid fa-star text-[#C89B3C]"></i><span class="font-semibold">4.9/5 Rating</span></div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                </div>
+                <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 hidden lg:block">
+                    <div class="relative h-full">
+                        <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Rumah modern">
+                        <div class="absolute inset-0 bg-gradient-to-r from-[#FAF8F3] via-[#FAF8F3]/20 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur rounded-2xl p-4 shadow-xl border border-white flex items-center gap-4">
+                            <div class="h-11 w-11 rounded-xl bg-[#172B4D] flex items-center justify-center shrink-0"><i class="fa-solid fa-key text-white"></i></div>
+                            <div><p class="text-xs text-[#172B4D]/60 font-medium">Mulai dari</p><p class="font-extrabold text-[#C89B3C]">Rp550 Juta</p></div>
+                            <div class="ml-auto text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-full">SIAP HUNI</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daftar Properti (digabung di Home) -->
+            <div id="section-properti" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 scroll-mt-24">
+                <div class="bg-[#172B4D] rounded-2xl p-6 md:p-8 mb-8 relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-[#C89B3C]/20 blur-2xl"></div>
+                    <div class="absolute right-20 bottom-0 h-24 w-24 rounded-full bg-white/10 blur-xl"></div>
+                    <div class="text-xs font-bold tracking-widest text-[#E8C97A] uppercase mb-1 relative">Pilihan Unggulan</div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-white relative">Daftar Properti</h2>
+                    <p class="text-white/70 mt-1 relative">Temukan hunian terbaik sesuai budget dan gaya hidup Anda.</p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Sidebar Filters -->
+                    <div class="w-full lg:w-1/4">
+                        <div class="bg-white p-5 rounded-2xl shadow-[0_8px_30px_rgba(23,43,77,.06)] border border-[#E8DED0] lg:sticky lg:top-24">
+                            <h3 class="font-extrabold text-lg text-[#172B4D] mb-4 flex items-center gap-2">
+                                <span class="h-8 w-8 rounded-lg bg-[#172B4D] flex items-center justify-center"><i class="fa-solid fa-filter text-white text-sm"></i></span> Filter Pencarian
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-[#242424] mb-1">Cari Keyword</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fa-solid fa-search text-[#C89B3C]"></i>
+                                        </div>
+                                        <input type="text" id="filter-search" oninput="applyFilters()" class="pl-9 w-full border border-[#E8DED0] rounded-lg p-2 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]" placeholder="Nama, Lokasi...">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-[#242424] mb-1">Status</label>
+                                    <select id="filter-status" onchange="applyFilters()" class="w-full border border-[#E8DED0] rounded-lg p-2 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]">
+                                        <option value="">Semua Status</option>
+                                        <option value="Dijual">Dijual</option>
+                                        <option value="Disewa">Disewa</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-[#242424] mb-1">Tipe Properti</label>
+                                    <select id="filter-type" onchange="applyFilters()" class="w-full border border-[#E8DED0] rounded-lg p-2 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]">
+                                        <option value="">Semua Tipe</option>
+                                        <option value="Minimalis">Minimalis</option>
+                                        <option value="Modern">Modern</option>
+                                        <option value="Klasik">Klasik</option>
+                                        <option value="2 Lantai">2 Lantai</option>
+                                        <option value="Premium">Premium</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-[#242424] mb-1">Harga Maksimal</label>
+                                    <input type="range" id="filter-price" min="0" max="5000000000" step="50000000" value="5000000000" oninput="updatePriceLabel(); applyFilters()" class="w-full accent-[#C89B3C]">
+                                    <div class="flex justify-between text-xs text-[#6B6257] mt-1">
+                                        <span>Rp 0</span>
+                                        <span id="price-label-max">Rp 5 Miliar</span>
+                                    </div>
+                                </div>
+                                <button onclick="resetFilters()" class="w-full mt-4 bg-[#EFE6D3] text-[#242424] py-2 rounded-lg text-sm font-medium hover:bg-[#E8DED0] transition-colors">
+                                    Reset Filter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Main Content List -->
+                    <div class="w-full lg:w-3/4">
+                        <div class="flex justify-between items-center mb-4">
+                            <p class="text-[#242424] text-sm">Menampilkan <span id="property-count" class="font-bold text-[#172B4D]">0</span> properti</p>
+                        </div>
+                        <div id="properties-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+                        <div id="empty-state" class="hidden text-center py-16 bg-white rounded-xl border border-dashed border-[#E8DED0]">
+                            <i class="fa-solid fa-house-circle-xmark text-5xl text-[#E8DED0] mb-4"></i>
+                            <h3 class="text-lg font-medium text-[#172B4D]">Properti tidak ditemukan</h3>
+                            <p class="text-[#6B6257] mt-1">Coba sesuaikan filter pencarian Anda.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tentang (digabung di Home) -->
+            <div id="section-about" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 scroll-mt-24 text-center">
+                <div class="bg-white rounded-3xl border border-[#E8DED0] shadow-[0_8px_30px_rgba(23,43,77,.06)] p-8 md:p-12">
+                    <img src="logo.png" onerror="this.onerror=null;this.src='.rumahkita.jpg'" alt="RumahKITA - Properti Untuk Masa Depan" class="h-24 md:h-28 w-auto max-w-full mx-auto rounded-2xl bg-black px-4 py-2 mb-5 object-contain">
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-[#172B4D] mb-4">Tentang <span class="text-[#C89B3C]">RumahKITA</span></h2>
+                    <p class="text-[#172B4D]/70 text-lg leading-relaxed mb-8">
+                        RumahKITA adalah platform listing properti yang dibuat untuk memudahkan masyarakat dalam mencari rumah impian mereka. Baik untuk dibeli maupun disewa, kami menyediakan informasi yang akurat dan transparan.
+                    </p>
+                    <div class="inline-block bg-[#F5EEE5] text-[#C89B3C] px-6 py-3 rounded-full font-semibold text-sm">
+                        Project PKL &copy; 2026
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kontak (digabung di Home) -->
+            <div id="section-kontak" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 scroll-mt-24">
+                <div class="bg-[#172B4D] rounded-3xl p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center gap-6 relative overflow-hidden">
+                    <div class="absolute -left-10 -bottom-10 h-48 w-48 rounded-full bg-[#C89B3C]/20 blur-2xl"></div>
+                    <div class="relative">
+                        <h2 class="text-2xl font-extrabold text-white">Butuh bantuan cari rumah?</h2>
+                        <p class="text-white/70 mt-1">Chat agen kami, fast respon setiap hari.</p>
+                    </div>
+                    <p class="md:ml-auto relative inline-flex items-center gap-2 bg-[#C89B3C] text-[#172B4D] px-5 py-3 rounded-2xl font-bold hover:bg-[#E8C97A] transition-colors cursor-pointer"><i class="fa-brands fa-whatsapp text-xl"></i> +62 812-0000-0000</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= DETAIL (tetap di Home, muncul saat klik kartu) ================= -->
+        <section id="view-detail" class="view-section hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 scroll-mt-24">
+            <button onclick="navigate('properti')" class="text-[#172B4D]/60 hover:text-[#C89B3C] mb-6 flex items-center gap-2 text-sm font-semibold transition-colors bg-white border border-[#E8DED0] px-4 py-2.5 rounded-xl shadow-sm">
+                <i class="fa-solid fa-arrow-left"></i> Kembali ke Daftar
+            </button>
+            <div id="detail-container" class="bg-white rounded-3xl shadow-[0_8px_30px_rgba(23,43,77,.08)] border border-[#E8DED0] overflow-hidden">
+                <!-- Rendered Details Go Here -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#172B4D] text-white/70 mt-auto">
+        <div class="h-1 gold-line"></div>
+        <div class="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8 items-start">
+            <div>
+                <div class="flex items-center gap-2.5 mb-3">
+                    <img src="logo.png" onerror="this.onerror=null;this.src='.rumahkita.jpg'" alt="RumahKITA" class="h-11 w-auto max-w-[200px] rounded-lg bg-black px-2 py-1 object-contain">
+                </div>
+                <p class="text-sm text-white/60">Rumah Terbaik Untuk Masa Depan. Profesional & Terpercaya.</p>
+            </div>
+            <div class="text-sm">
+                <p class="font-bold text-white mb-2">Navigasi</p>
+                <p class="space-x-4"><a class="hover:text-white cursor-pointer" onclick="navigate('home')">Home</a><a class="hover:text-white cursor-pointer" onclick="navigate('properti')">Properti</a><a class="hover:text-white cursor-pointer" onclick="navigate('about')">Tentang</a></p>
+            </div>
+            <div class="text-sm md:text-right">
+                <p class="font-bold text-white mb-2">Hubungi Kami</p>
+                <p class="inline-flex items-center gap-2 bg-[#C89B3C] text-white px-4 py-2 rounded-xl font-semibold"><i class="fa-brands fa-whatsapp"></i> +62 812-0000-0000</p>
+            </div>
+        </div>
+        <p class="text-center text-xs text-white/50 pb-6">&copy; 2026 RumahKITA. Hak Cipta Dilindungi.</p>
+    </footer>
+
+    <!-- ================= MODALS & OVERLAYS ================= -->
+    
+    <!-- Property Form Modal -->
+    <div id="form-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-[#172B4D]/70 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col transform transition-all modal-enter" id="form-modal-content">
+            <!-- Header -->
+            <div class="px-6 py-4 border-b border-[#E8DED0] flex justify-between items-center">
+                <h3 class="text-xl font-bold text-[#172B4D]" id="modal-title">Tambah Properti Baru</h3>
+                <button onclick="closeFormModal()" class="text-[#C89B3C] hover:text-[#242424] transition-colors">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+            </div>
+            <!-- Body -->
+            <div class="p-6 overflow-y-auto">
+                <form id="property-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                    <input type="hidden" id="form-id">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-[#242424] mb-1">Judul Properti *</label>
+                            <input type="text" id="form-title" required class="w-full border border-[#E8DED0] rounded-lg p-2.5 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]" placeholder="Misal: Rumah Minimalis Baleendah">
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-[#242424] mb-1">URL Foto Rumah *</label>
+                            <input type="url" id="form-image" required class="w-full border border-[#E8DED0] rounded-lg p-2.5 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]" placeholder="https://example.com/foto.jpg">
+                            <p class="text-xs text-[#6B6257] mt-1">Kosongkan jika tidak ada (akan pakai placeholder).</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-[#242424] mb-1">Harga (Rp) *</label>
+                            <input type="number" id="form-price" required min="0" class="w-full border border-[#E8DED0] rounded-lg p-2.5 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]" placeholder="Misal: 650000000">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-[#242424] mb-1">Status / Durasi Sewa</label>
+                            <div class="flex gap-2">
+                                <select id="form-status" required class="w-1/2 border border-[#E8DED0] rounded-lg p-2.5 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]">
+                                    <option value="Dijual">Dijual</option>
+                                    <option value="Disewa">Disewa</option>
+                                </select>
+                                <select id="form-period" class="w-1/2 border border-[#E8DED0] rounded-lg p-2.5 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]">
+                                    <option value="">(Bukan Sewa)</option>
+                                    <option value="/bln">Per Bulan</option>
+                                    <option value="/thn">Per Tahun</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-[#242424] mb-1">Lokasi (Kota/Daerah) *</label>
+                            <input type="text" id="form-location" required class="w-full border border-[#E8DED0] rounded-lg p-2.5 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]" placeholder="Misal: Bandung">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-[#242424] mb-1">Tipe Rumah *</label>
+                            <select id="form-type" required class="w-full border border-[#E8DED0] rounded-lg p-2.5 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]">
+                                <option value="Minimalis">Minimalis</option>
+                                <option value="Modern">Modern</option>
+                                <option value="Klasik">Klasik</option>
+                                <option value="2 Lantai">2 Lantai</option>
+                                <option value="Premium">Premium</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-[#242424] mb-1">Luas Tanah (m²) *</label>
+                            <input type="number" id="form-area" required min="1" class="w-full border border-[#E8DED0] rounded-lg p-2.5 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]" placeholder="Misal: 90">
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-1/2">
+                                <label class="block text-sm font-medium text-[#242424] mb-1">Kamar Tidur *</label>
+                                <input type="number" id="form-beds" required min="0" class="w-full border border-[#E8DED0] rounded-lg p-2.5 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]" placeholder="0">
+                            </div>
+                            <div class="w-1/2">
+                                <label class="block text-sm font-medium text-[#242424] mb-1">Kamar Mandi *</label>
+                                <input type="number" id="form-baths" required min="0" class="w-full border border-[#E8DED0] rounded-lg p-2.5 text-sm focus:ring-[#C89B3C] focus:border-[#C89B3C]" placeholder="0">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- Footer -->
+            <div class="px-6 py-4 border-t border-[#E8DED0] flex justify-end gap-3 bg-[#F5EEE5] rounded-b-2xl">
+                <button type="button" onclick="closeFormModal()" class="px-4 py-2 border border-[#E8DED0] rounded-lg text-[#242424] hover:bg-[#EFE6D3] transition-colors font-medium text-sm">Batal</button>
+                <button type="submit" form="property-form" class="px-4 py-2 bg-[#C89B3C] rounded-lg text-white hover:bg-[#A67C2A] transition-colors font-medium text-sm shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-save"></i> Simpan Properti
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-[#172B4D]/70 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 text-center transform transition-all modal-enter" id="confirm-modal-content">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                <i class="fa-solid fa-triangle-exclamation text-2xl text-red-600"></i>
+            </div>
+            <h3 class="text-lg font-bold text-[#172B4D] mb-2" id="confirm-title">Hapus Properti?</h3>
+            <p class="text-sm text-[#6B6257] mb-6" id="confirm-message">Apakah Anda yakin ingin menghapus properti ini? Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="flex justify-center gap-3">
+                <button onclick="closeConfirmModal()" class="px-4 py-2 border border-[#E8DED0] rounded-lg text-[#242424] hover:bg-[#F5EEE5] transition-colors font-medium text-sm w-full">Batal</button>
+                <button id="confirm-btn" class="px-4 py-2 bg-red-600 rounded-lg text-white hover:bg-red-700 transition-colors font-medium text-sm w-full shadow-sm">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-[70] flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+        // --- DATA & STATE MANAGEMENT ---
+        const STORAGE_KEY = 'RUMAH_KITA_DATA_V2';
+        let properties = [];
+        let currentView = 'home';
+        let propertyToEdit = null;
+        let confirmAction = null;
+
+        // Data awal (Seed Data) — 12 listing referensi Summarecon & Podomoro Park Bandung
+        const sampleData = [
+            { id: 1, title: 'Summarecon Bandung Cluster Flora Minimalis', price: 750000000, period: '', location: 'Bandung', type: 'Minimalis', status: 'Dijual', area: 90, beds: 3, baths: 2, image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80' },
+            { id: 2, title: 'Summarecon Gedebage Modern Tropis', price: 1250000000, period: '', location: 'Bandung', type: 'Modern', status: 'Dijual', area: 120, beds: 4, baths: 3, image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&q=80' },
+            { id: 3, title: 'Podomoro Park Lakeside Premium', price: 2400000000, period: '', location: 'Bandung', type: 'Premium', status: 'Dijual', area: 180, beds: 5, baths: 4, image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80' },
+            { id: 4, title: 'Podomoro Park Klasik Elegan', price: 1850000000, period: '', location: 'Bandung', type: 'Klasik', status: 'Dijual', area: 150, beds: 4, baths: 3, image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=600&q=80' },
+            { id: 5, title: 'Summarecon Keluarga 2 Lantai', price: 980000000, period: '', location: 'Cimahi', type: '2 Lantai', status: 'Dijual', area: 110, beds: 4, baths: 3, image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80' },
+            { id: 6, title: 'Podomoro Park Disewa Bulanan Furnished', price: 12000000, period: '/bln', location: 'Bandung', type: 'Premium', status: 'Disewa', area: 90, beds: 3, baths: 2, image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80' },
+            { id: 7, title: 'Summarecon Minimalis Disewa Tahunan', price: 85000000, period: '/thn', location: 'Bandung', type: 'Minimalis', status: 'Disewa', area: 80, beds: 3, baths: 2, image: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=600&q=80' },
+            { id: 8, title: 'Summarecon Modern Hook Strategis', price: 1500000000, period: '', location: 'Bandung', type: 'Modern', status: 'Dijual', area: 135, beds: 4, baths: 3, image: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=600&q=80' },
+            { id: 9, title: 'Podomoro 2 Lantai Garden View', price: 1100000000, period: '', location: 'Cimahi', type: '2 Lantai', status: 'Dijual', area: 105, beds: 3, baths: 2, image: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=600&q=80' },
+            { id: 10, title: 'Summarecon Klasik Mewah', price: 2100000000, period: '', location: 'Bandung', type: 'Klasik', status: 'Dijual', area: 170, beds: 5, baths: 4, image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80' },
+            { id: 11, title: 'Podomoro Minimalis Compact', price: 620000000, period: '', location: 'Cimahi', type: 'Minimalis', status: 'Dijual', area: 75, beds: 2, baths: 1, image: 'https://images.unsplash.com/photo-1605146769289-440113cc3d00?auto=format&fit=crop&w=600&q=80' },
+            { id: 12, title: 'Summarecon Premium Dago View Disewa', price: 9500000, period: '/bln', location: 'Bandung', type: 'Premium', status: 'Disewa', area: 100, beds: 3, baths: 2, image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=600&q=80' }
+        ];
+
+        // Initialize App
+        function initApp() {
+            const storedData = localStorage.getItem(STORAGE_KEY);
+            if (storedData) {
+                properties = JSON.parse(storedData);
+            } else {
+                properties = [...sampleData];
+                saveData();
+            }
+            
+            // Set initial state (single-page home)
+            updateActiveNav('home');
+            applyFilters();
+            updatePriceLabel();
+        }
+
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(properties));
+        }
+
+        // --- UTILS ---
+        function formatRupiah(number) {
+            if(number >= 1000000000) {
+                return (number / 1000000000).toLocaleString('id-ID', {maximumFractionDigits: 2}) + ' Miliar';
+            } else if (number >= 1000000) {
+                return (number / 1000000).toLocaleString('id-ID', {maximumFractionDigits: 0}) + ' Juta';
+            }
+            return number.toLocaleString('id-ID');
+        }
+
+        function generateId() {
+            return Date.now() + Math.floor(Math.random() * 1000);
+        }
+
+        function getPlaceholderImg() {
+            return `https://placehold.co/600x400/e2e8f0/475569?text=Tidak+Ada+Foto`;
+        }
+
+        // --- NAVIGATION & UI LOGIC (single-page) ---
+        function navigate(viewId) {
+            currentView = viewId;
+            updateActiveNav(viewId);
+
+            const detailSec = document.getElementById('view-detail');
+            if (viewId !== 'detail' && detailSec) {
+                detailSec.classList.add('hidden');
+                detailSec.classList.remove('block');
+            }
+
+            const map = {
+                home: 'view-home',
+                properti: 'section-properti',
+                about: 'section-about',
+                kontak: 'section-kontak',
+                detail: 'view-detail'
+            };
+            const targetId = map[viewId] || 'view-home';
+            const target = document.getElementById(targetId);
+            if (viewId === 'detail') {
+                if (detailSec) { detailSec.classList.remove('hidden'); detailSec.classList.add('block'); }
+            }
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateActiveNav(activeId) {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.target === activeId) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function triggerHeroSearch() {
+            const keyword = document.getElementById('hero-search').value;
+            document.getElementById('filter-search').value = keyword;
+            applyFilters();
+            navigate('properti');
+        }
+
+        // --- RENDER LOGIC ---
+        function createPropertyCard(prop) {
+            const priceFormatted = `Rp${formatRupiah(prop.price)}${prop.period}`;
+            const badgeColor = prop.status === 'Dijual' ? 'bg-emerald-500 text-white' : 'bg-[#C89B3C] text-white';
+            
+            return `
+                <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(23,43,77,.06)] border border-[#E8DED0] overflow-hidden card-hover transition-all flex flex-col h-full cursor-pointer group" onclick="viewDetail(${prop.id})">
+                    <div class="relative h-52 w-full bg-[#EFE6D3] overflow-hidden">
+                        <img src="${prop.image || getPlaceholderImg()}" alt="${prop.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='${getPlaceholderImg()}'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#172B4D]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="absolute top-3 left-3 bg-[#172B4D]/90 backdrop-blur text-white px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide flex items-center gap-1.5">
+                            <i class="fa-solid fa-house text-[#E8C97A] text-[10px]"></i> ${prop.type}
+                        </div>
+                        <div class="absolute top-3 right-3 ${badgeColor} px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide shadow">
+                            ${prop.status}
+                        </div>
+                        <div class="absolute bottom-3 left-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-lg text-xs font-semibold text-[#172B4D] flex items-center gap-1">
+                            <i class="fa-solid fa-location-dot text-[#C89B3C]"></i> ${prop.location}
+                        </div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="text-xl font-extrabold text-[#C89B3C] mb-1 line-clamp-1">${priceFormatted}</div>
+                        <h3 class="text-[15px] font-bold text-[#172B4D] mb-3 line-clamp-2 leading-snug">${prop.title}</h3>
+                        
+                        <div class="mt-auto flex flex-wrap gap-y-2 gap-x-4 text-[13px] text-[#172B4D]/70 border-t border-[#EEF2FA] pt-3 font-medium">
+                            <div class="flex items-center gap-1.5" title="Luas">
+                                <i class="fa-solid fa-expand text-[#C89B3C]"></i> ${prop.area} m²
+                            </div>
+                            <div class="flex items-center gap-1.5" title="Kamar Tidur">
+                                <i class="fa-solid fa-bed text-[#C89B3C]"></i> ${prop.beds} KT
+                            </div>
+                            <div class="flex items-center gap-1.5" title="Kamar Mandi">
+                                <i class="fa-solid fa-bath text-[#C89B3C]"></i> ${prop.baths} KM
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderHomeProperties() {
+            // Single-page: home grid = filtered grid
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const search = document.getElementById('filter-search').value.toLowerCase();
+            const status = document.getElementById('filter-status').value;
+            const type = document.getElementById('filter-type').value;
+            const maxPrice = parseInt(document.getElementById('filter-price').value);
+
+            const filtered = properties.filter(prop => {
+                const matchSearch = prop.title.toLowerCase().includes(search) || prop.location.toLowerCase().includes(search);
+                const matchStatus = status === "" || prop.status === status;
+                const matchType = type === "" || prop.type === type;
+                const matchPrice = prop.price <= maxPrice;
+
+                return matchSearch && matchStatus && matchType && matchPrice;
+            });
+
+            renderFilteredProperties(filtered);
+        }
+
+        function renderFilteredProperties(filteredData) {
+            const container = document.getElementById('properties-grid');
+            const emptyState = document.getElementById('empty-state');
+            document.getElementById('property-count').textContent = filteredData.length;
+
+            if (filteredData.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                container.innerHTML = filteredData.reverse().map(createPropertyCard).join('');
+            }
+        }
+
+        function updatePriceLabel() {
+            const val = document.getElementById('filter-price').value;
+            document.getElementById('price-label-max').textContent = `Rp ${formatRupiah(parseInt(val))}`;
+        }
+
+        function resetFilters() {
+            document.getElementById('filter-search').value = '';
+            document.getElementById('filter-status').value = '';
+            document.getElementById('filter-type').value = '';
+            document.getElementById('filter-price').value = 5000000000;
+            updatePriceLabel();
+            applyFilters();
+        }
+
+        // --- DETAIL VIEW ---
+        function viewDetail(id) {
+            const prop = properties.find(p => p.id === id);
+            if(!prop) return;
+
+            const container = document.getElementById('detail-container');
+            const priceFormatted = `Rp${formatRupiah(prop.price)}${prop.period}`;
+            const badgeColor = prop.status === 'Dijual' ? 'bg-emerald-500 text-white' : 'bg-[#C89B3C] text-white';
+
+            container.innerHTML = `
+                <div class="flex flex-col md:flex-row">
+                    <!-- Image Gallery -->
+                    <div class="md:w-1/2 h-64 md:h-auto bg-[#EFE6D3] relative">
+                        <img src="${prop.image || getPlaceholderImg()}" class="w-full h-full object-cover min-h-[320px]" onerror="this.src='${getPlaceholderImg()}'">
+                        <div class="absolute top-4 left-4 ${badgeColor} px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg">
+                            ${prop.status}
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="md:w-1/2 p-6 lg:p-8 flex flex-col bg-white">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="text-xs font-bold tracking-widest text-[#C89B3C] uppercase">RumahKITA • Premium Listing</div>
+                            <div class="flex gap-2">
+                                <button onclick="editProperty(${prop.id})" class="h-9 w-9 rounded-xl bg-[#F5EEE5] text-[#172B4D] hover:bg-[#C89B3C] hover:text-white flex items-center justify-center transition-colors" title="Edit">
+                                    <i class="fa-solid fa-pen text-sm"></i>
+                                </button>
+                                <button onclick="confirmDelete(${prop.id})" class="h-9 w-9 rounded-xl bg-red-50 text-red-600 hover:bg-red-600 hover:text-white flex items-center justify-center transition-colors" title="Hapus">
+                                    <i class="fa-solid fa-trash text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-[#172B4D] mb-2 leading-tight">${prop.title}</h2>
+                        <div class="text-2xl font-extrabold text-[#C89B3C] mb-1">${priceFormatted}</div>
+                        <p class="text-sm text-[#172B4D]/60 mb-6 flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-[#C89B3C]"></i> ${prop.location} • <i class="fa-solid fa-house text-[#C89B3C] ml-1"></i> ${prop.type}</p>
+                        
+                        <div class="grid grid-cols-2 gap-3 mb-6">
+                            <div class="bg-[#FAF8F3] border border-[#E8DED0] p-3 rounded-xl flex items-center gap-3">
+                                <div class="bg-[#172B4D] p-2.5 rounded-lg text-white shrink-0"><i class="fa-solid fa-location-dot"></i></div>
+                                <div>
+                                    <p class="text-[11px] text-[#172B4D]/60 font-medium">Lokasi</p>
+                                    <p class="font-bold text-[#172B4D] text-sm">${prop.location}</p>
+                                </div>
+                            </div>
+                            <div class="bg-[#FAF8F3] border border-[#E8DED0] p-3 rounded-xl flex items-center gap-3">
+                                <div class="bg-[#172B4D] p-2.5 rounded-lg text-white shrink-0"><i class="fa-solid fa-house"></i></div>
+                                <div>
+                                    <p class="text-[11px] text-[#172B4D]/60 font-medium">Tipe</p>
+                                    <p class="font-bold text-[#172B4D] text-sm">${prop.type}</p>
+                                </div>
+                            </div>
+                            <div class="bg-[#FAF8F3] border border-[#E8DED0] p-3 rounded-xl flex items-center gap-3 col-span-2">
+                                <div class="bg-[#C89B3C] p-2.5 rounded-lg text-white shrink-0"><i class="fa-solid fa-expand"></i></div>
+                                <div>
+                                    <p class="text-[11px] text-[#172B4D]/60 font-medium">Luas Tanah</p>
+                                    <p class="font-bold text-[#172B4D] text-sm">${prop.area} m² • ${prop.beds} KT • ${prop.baths} KM</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-[#E8DED0] pt-5 mt-auto">
+                            <h4 class="font-extrabold text-[#172B4D] mb-3">Fasilitas Utama</h4>
+                            <div class="flex gap-6">
+                                <div class="flex items-center gap-2 text-[#172B4D]">
+                                    <span class="h-10 w-10 rounded-xl bg-[#F5EEE5] flex items-center justify-center"><i class="fa-solid fa-bed text-[#C89B3C]"></i></span>
+                                    <span class="font-semibold text-sm">${prop.beds} Kamar Tidur</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-[#172B4D]">
+                                    <span class="h-10 w-10 rounded-xl bg-[#F5EEE5] flex items-center justify-center"><i class="fa-solid fa-bath text-[#C89B3C]"></i></span>
+                                    <span class="font-semibold text-sm">${prop.baths} Kamar Mandi</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-7">
+                            <button class="w-full bg-[#C89B3C] hover:bg-[#A67C2A] text-white font-bold py-3 rounded-xl shadow-[0_4px_14px_rgba(200,155,60,.4)] transition-all flex justify-center items-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-xl"></i> Hubungi Agen
+                            </button>
+                            <button onclick="navigate('properti')" class="w-full bg-[#172B4D] hover:bg-[#243A5E] text-white font-bold py-3 rounded-xl transition-all flex justify-center items-center gap-2">
+                                <i class="fa-solid fa-arrow-left"></i> Lihat Lainnya
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            navigate('detail');
+        }
+
+        // --- FORM LOGIC (ADD / EDIT) ---
+        function openFormModal(id = null) {
+            const modal = document.getElementById('form-modal');
+            const content = document.getElementById('form-modal-content');
+            
+            modal.style.display = 'flex';
+            // Trigger animation frame for transition
+            requestAnimationFrame(() => {
+                content.classList.remove('modal-enter');
+                content.classList.add('modal-enter-active');
+            });
+
+            const form = document.getElementById('property-form');
+            form.reset();
+
+            if (id) {
+                document.getElementById('modal-title').textContent = 'Edit Properti';
+                const prop = properties.find(p => p.id === id);
+                if(prop) {
+                    document.getElementById('form-id').value = prop.id;
+                    document.getElementById('form-title').value = prop.title;
+                    document.getElementById('form-image').value = prop.image;
+                    document.getElementById('form-price').value = prop.price;
+                    document.getElementById('form-status').value = prop.status;
+                    document.getElementById('form-period').value = prop.period || '';
+                    document.getElementById('form-location').value = prop.location;
+                    document.getElementById('form-type').value = prop.type;
+                    document.getElementById('form-area').value = prop.area;
+                    document.getElementById('form-beds').value = prop.beds;
+                    document.getElementById('form-baths').value = prop.baths;
+                }
+            } else {
+                document.getElementById('modal-title').textContent = 'Tambah Properti Baru';
+                document.getElementById('form-id').value = '';
+                // Default status related logic
+                document.getElementById('form-status').value = 'Dijual';
+                document.getElementById('form-period').value = '';
+            }
+        }
+
+        function closeFormModal() {
+            const content = document.getElementById('form-modal-content');
+            content.classList.remove('modal-enter-active');
+            content.classList.add('modal-exit-active');
+            
+            setTimeout(() => {
+                document.getElementById('form-modal').style.display = 'none';
+                content.classList.remove('modal-exit-active');
+                content.classList.add('modal-enter');
+            }, 200);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('form-id').value;
+            const statusVal = document.getElementById('form-status').value;
+            // Force empty period if sold to avoid mistakes
+            const periodVal = statusVal === 'Dijual' ? '' : document.getElementById('form-period').value;
+
+            const newProp = {
+                id: id ? parseInt(id) : generateId(),
+                title: document.getElementById('form-title').value,
+                image: document.getElementById('form-image').value,
+                price: parseInt(document.getElementById('form-price').value),
+                status: statusVal,
+                period: periodVal,
+                location: document.getElementById('form-location').value,
+                type: document.getElementById('form-type').value,
+                area: parseInt(document.getElementById('form-area').value),
+                beds: parseInt(document.getElementById('form-beds').value),
+                baths: parseInt(document.getElementById('form-baths').value),
+            };
+
+            if (id) {
+                // Update
+                const index = properties.findIndex(p => p.id === parseInt(id));
+                if(index !== -1) properties[index] = newProp;
+                showToast('Properti berhasil diperbarui!', 'success');
+            } else {
+                // Add
+                properties.push(newProp);
+                showToast('Properti baru berhasil ditambahkan!', 'success');
+            }
+
+            saveData();
+            applyFilters();
+            const detailSec = document.getElementById('view-detail');
+            if (id && detailSec && !detailSec.classList.contains('hidden')) viewDetail(newProp.id);
+
+            closeFormModal();
+        }
+
+        function editProperty(id) {
+            openFormModal(id);
+        }
+
+        // --- DELETE LOGIC ---
+        function confirmDelete(id) {
+            confirmAction = () => {
+                properties = properties.filter(p => p.id !== id);
+                saveData();
+                showToast('Properti berhasil dihapus.', 'error');
+                closeConfirmModal();
+                navigate('properti'); // Go back to list if deleted from detail
+            };
+            
+            const modal = document.getElementById('confirm-modal');
+            const content = document.getElementById('confirm-modal-content');
+            
+            modal.style.display = 'flex';
+            requestAnimationFrame(() => {
+                content.classList.remove('modal-enter');
+                content.classList.add('modal-enter-active');
+            });
+
+            document.getElementById('confirm-btn').onclick = confirmAction;
+        }
+
+        function closeConfirmModal() {
+            const content = document.getElementById('confirm-modal-content');
+            content.classList.remove('modal-enter-active');
+            content.classList.add('modal-exit-active');
+            
+            setTimeout(() => {
+                document.getElementById('confirm-modal').style.display = 'none';
+                content.classList.remove('modal-exit-active');
+                content.classList.add('modal-enter');
+                confirmAction = null;
+            }, 200);
+        }
+
+        // --- CUSTOM TOAST NOTIFICATION ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const colors = type === 'success' 
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-800' 
+                : 'bg-red-50 border-red-200 text-red-800';
+            const icon = type === 'success'
+                ? '<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>'
+                : '<i class="fa-solid fa-circle-xmark text-red-500 mt-0.5"></i>';
+
+            toast.className = `flex items-start gap-3 p-4 border rounded-xl shadow-lg transform transition-all duration-300 translate-y-10 opacity-0 ${colors} pointer-events-auto`;
+            toast.innerHTML = `
+                ${icon}
+                <div class="text-sm font-medium">${message}</div>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Animate in
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            });
+
+            // Auto remove
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Handle auto-period switch in form
+        document.getElementById('form-status').addEventListener('change', function(e) {
+            const periodSelect = document.getElementById('form-period');
+            if(e.target.value === 'Dijual') {
+                periodSelect.value = '';
+                periodSelect.disabled = true;
+                periodSelect.classList.add('bg-[#EFE6D3]');
+            } else {
+                periodSelect.disabled = false;
+                periodSelect.value = '/bln'; // default untuk sewa
+                periodSelect.classList.remove('bg-[#EFE6D3]');
+            }
+        });
+
+        // Init
+        window.onload = initApp;
+
+    </script>
+</body>
+</html>
